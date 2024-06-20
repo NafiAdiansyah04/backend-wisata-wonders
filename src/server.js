@@ -14,8 +14,9 @@ const init = async () => {
     },
   });
 
-  mongoose.connect('mongodb+srv://nafiadiansyah04:B5uOqsm9K8isxesc@cluster0.1h0rj5s.mongodb.net/?retryWrites=true&w=majority', { 
-    useNewUrlParser: true,
+  mongoose.connect('mongodb+srv://nafiadiansyah04:pikk040903@cluster0.1h0rj5s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
   });
 
   const db = mongoose.connection;
