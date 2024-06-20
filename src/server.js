@@ -1,9 +1,11 @@
 const Hapi = require('@hapi/hapi');
-const mongoose = require('mongoose');
+const connectToDatabase = require('./db'); // Ganti dengan lokasi file koneksi Anda
 const ArticleRoutes = require('./routes/articleRoutes');
 const EventRoutes = require('./routes/eventRoutes');
 
 const init = async () => {
+  await connectToDatabase(); // Memanggil fungsi koneksi database
+
   const server = Hapi.server({
     port: process.env.PORT || 3030,
     host: '0.0.0.0',
@@ -14,22 +16,16 @@ const init = async () => {
     },
   });
 
-  mongoose.connect('mongodb+srv://nafiadiansyah04:pikk040903@cluster0.1h0rj5s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  });
-
-  const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error'));
-  db.once('open', () => {
-    console.log('Connection with database succeeded.');
-  });
-
   server.route(ArticleRoutes);
   server.route(EventRoutes);
 
-  await server.start();
-  console.log(`Server running in ${server.info.uri}`);
+  try {
+    await server.start();
+    console.log(`Server running at ${server.info.uri}`);
+  } catch (error) {
+    console.error('Error starting server:', error);
+    process.exit(1); // Exit process with error
+  }
 };
 
 init();
