@@ -11,10 +11,19 @@ const init = async () => {
     },
   });
 
-  // Menangani permintaan favicon dengan respons kosong
+  // Menangani permintaan favicon.ico dengan respons kosong
   server.route({
     method: 'GET',
     path: '/favicon.ico',
+    handler: (request, h) => {
+      return h.response('').code(204);
+    }
+  });
+
+  // Menangani permintaan favicon.png dengan respons kosong
+  server.route({
+    method: 'GET',
+    path: '/favicon.png',
     handler: (request, h) => {
       return h.response('').code(204);
     }
